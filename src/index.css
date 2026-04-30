@@ -1,0 +1,457 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ---------------------------------------------------------------------------
+ * Tailwind v4 design tokens
+ * -------------------------------------------------------------------------*/
+@theme inline {
+  /* Typography ------------------------------------------------------------*/
+  --font-sans:
+    "Inter", "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display:
+    "Bricolage Grotesque", "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Radii -----------------------------------------------------------------*/
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 3px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+  --radius-2xl: calc(var(--radius) + 14px);
+
+  /* Color tokens ----------------------------------------------------------*/
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-sand: var(--sand);
+  --color-sand-foreground: var(--sand-foreground);
+  --color-jungle: var(--jungle);
+  --color-jungle-foreground: var(--jungle-foreground);
+  --color-cr-red: var(--cr-red);
+  --color-cr-red-foreground: var(--cr-red-foreground);
+  --color-cr-blue: var(--cr-blue);
+  --color-cr-blue-foreground: var(--cr-blue-foreground);
+}
+
+/* ---------------------------------------------------------------------------
+ * Costa Rica — modern & premium reinterpretation of the flag palette
+ * Blue · Red · White · Green, with sand/gold supporting accents.
+ * -------------------------------------------------------------------------*/
+:root {
+  --radius: 1rem;
+
+  /* Costa Rica accents (refined) ----------------------------------------- */
+  --cr-blue: oklch(0.34 0.13 252);            /* deep ocean blue (premium) */
+  --cr-blue-foreground: oklch(0.98 0.01 252);
+  --cr-blue-soft: oklch(0.93 0.04 252);       /* misty horizon blue */
+
+  --cr-red: oklch(0.56 0.19 22);              /* warm sangria red */
+  --cr-red-foreground: oklch(0.99 0.01 22);
+
+  --gold: oklch(0.78 0.13 80);                /* warm tropical gold */
+  --gold-foreground: oklch(0.22 0.04 80);
+
+  --sand: oklch(0.95 0.03 85);                /* soft sand */
+  --sand-foreground: oklch(0.25 0.03 85);
+
+  --jungle: oklch(0.48 0.13 155);             /* deep tropical green */
+  --jungle-foreground: oklch(0.98 0.01 155);
+
+  /* Surface ---------------------------------------------------------------*/
+  --background: oklch(0.975 0.011 85);        /* warm ivory — never pure white */
+  --foreground: oklch(0.18 0.025 252);
+  --card: oklch(0.995 0.005 85);
+  --card-foreground: oklch(0.18 0.025 252);
+  --popover: oklch(0.995 0.005 85);
+  --popover-foreground: oklch(0.18 0.025 252);
+
+  /* Brand-driven semantic tokens -----------------------------------------*/
+  --primary: oklch(0.34 0.13 252);
+  --primary-foreground: oklch(0.98 0.01 252);
+  --secondary: oklch(0.93 0.025 85);
+  --secondary-foreground: oklch(0.22 0.04 85);
+  --muted: oklch(0.95 0.018 85);
+  --muted-foreground: oklch(0.43 0.025 252);
+  --accent: oklch(0.78 0.13 80);
+  --accent-foreground: oklch(0.22 0.04 80);
+  --destructive: oklch(0.56 0.19 22);
+  --destructive-foreground: oklch(0.99 0.01 22);
+  --border: oklch(0.88 0.02 85);
+  --input: oklch(0.9 0.02 85);
+  --ring: oklch(0.78 0.13 80);
+
+  --chart-1: oklch(0.34 0.13 252);
+  --chart-2: oklch(0.56 0.19 22);
+  --chart-3: oklch(0.78 0.13 80);
+  --chart-4: oklch(0.48 0.13 155);
+  --chart-5: oklch(0.95 0.03 85);
+
+  --sidebar: oklch(0.985 0.01 252);
+  --sidebar-foreground: oklch(0.2 0.03 252);
+  --sidebar-primary: oklch(0.34 0.13 252);
+  --sidebar-primary-foreground: oklch(0.98 0.01 252);
+  --sidebar-accent: oklch(0.93 0.025 85);
+  --sidebar-accent-foreground: oklch(0.22 0.04 85);
+  --sidebar-border: oklch(0.88 0.02 85);
+  --sidebar-ring: oklch(0.78 0.13 80);
+}
+
+.dark {
+  --background: oklch(0.16 0.025 252);
+  --foreground: oklch(0.98 0.01 85);
+  --card: oklch(0.21 0.03 252);
+  --card-foreground: oklch(0.98 0.01 85);
+  --popover: oklch(0.21 0.03 252);
+  --popover-foreground: oklch(0.98 0.01 85);
+  --primary: oklch(0.55 0.18 252);
+  --primary-foreground: oklch(0.98 0.01 252);
+  --secondary: oklch(0.27 0.04 85);
+  --secondary-foreground: oklch(0.94 0.04 85);
+  --muted: oklch(0.25 0.03 252);
+  --muted-foreground: oklch(0.78 0.03 85);
+  --accent: oklch(0.78 0.13 80);
+  --accent-foreground: oklch(0.22 0.04 80);
+  --destructive: oklch(0.65 0.2 22);
+  --destructive-foreground: oklch(0.99 0.01 22);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.78 0.13 80);
+  --chart-1: oklch(0.55 0.18 252);
+  --chart-2: oklch(0.65 0.2 22);
+  --chart-3: oklch(0.78 0.13 80);
+  --chart-4: oklch(0.6 0.13 155);
+  --chart-5: oklch(0.94 0.04 85);
+  --sidebar: oklch(0.21 0.03 252);
+  --sidebar-foreground: oklch(0.98 0.01 85);
+  --sidebar-primary: oklch(0.55 0.18 252);
+  --sidebar-primary-foreground: oklch(0.98 0.01 252);
+  --sidebar-accent: oklch(0.27 0.04 85);
+  --sidebar-accent-foreground: oklch(0.94 0.04 85);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.78 0.13 80);
+}
+
+/* ---------------------------------------------------------------------------
+ * Base layer — typography & global rhythm
+ * -------------------------------------------------------------------------*/
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "ss02", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Soft tropical wash — keeps surfaces from feeling flat or pure white */
+    background-image:
+      radial-gradient(
+        ellipse 70% 50% at 12% -10%,
+        color-mix(in oklch, var(--cr-blue) 10%, transparent) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        ellipse 60% 40% at 95% 110%,
+        color-mix(in oklch, var(--jungle) 12%, transparent) 0%,
+        transparent 55%
+      );
+    background-attachment: fixed;
+  }
+
+  /* Heading typography uses Bricolage Grotesque for a confident, editorial feel */
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  /* Selection — warm tropical highlight */
+  ::selection {
+    background: color-mix(in oklch, var(--gold) 35%, transparent);
+    color: var(--foreground);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Utilities — premium effects & micro-animations
+ * -------------------------------------------------------------------------*/
+@layer utilities {
+  /* Glass surfaces ------------------------------------------------------- */
+  .glass {
+    background: color-mix(in oklch, var(--card) 70%, transparent);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-color: color-mix(in oklch, var(--border) 80%, transparent);
+  }
+  .glass-dark {
+    background: color-mix(in oklch, var(--foreground) 14%, transparent);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+  }
+
+  /* Text & layout helpers ------------------------------------------------ */
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+  .font-display { font-family: var(--font-display); }
+
+  /* Soft text shadow for hero headings on photography */
+  .text-shadow-soft {
+    text-shadow:
+      0 1px 2px rgba(8, 12, 24, 0.25),
+      0 12px 40px rgba(8, 12, 24, 0.35);
+  }
+
+  /* Section eyebrow chip — replicates the badge across the site */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in oklch, var(--border) 90%, transparent);
+    background: color-mix(in oklch, var(--card) 80%, transparent);
+    backdrop-filter: blur(8px);
+    padding: 0.375rem 0.875rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: color-mix(in oklch, var(--foreground) 75%, transparent);
+  }
+
+  /* Subtle gradient text using brand colors */
+  .text-cr-gradient {
+    background: linear-gradient(
+      135deg,
+      var(--cr-blue) 0%,
+      var(--jungle) 60%,
+      var(--gold) 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  /* Reveal on scroll ----------------------------------------------------- */
+  .reveal {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+    transition:
+      opacity 0.85s cubic-bezier(0.2, 0.8, 0.2, 1),
+      transform 0.85s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  .reveal-delay-1 { transition-delay: 90ms; }
+  .reveal-delay-2 { transition-delay: 180ms; }
+  .reveal-delay-3 { transition-delay: 270ms; }
+
+  /* Hero fade-up entry animation ----------------------------------------- */
+  .fade-up {
+    animation: fade-up 0.95s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translate3d(0, 28px, 0); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+
+  /* Card hover-lift ------------------------------------------------------ */
+  .hover-lift {
+    transition:
+      transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+      border-color 0.4s ease;
+    will-change: transform;
+  }
+  .hover-lift:hover {
+    transform: translate3d(0, -6px, 0);
+    box-shadow:
+      0 24px 48px -24px color-mix(in oklch, var(--cr-blue) 30%, transparent),
+      0 8px 16px -8px color-mix(in oklch, var(--foreground) 12%, transparent);
+  }
+
+  /* CTA shimmer (sweeping highlight on hover) ---------------------------- */
+  .btn-shine {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .btn-shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      120deg,
+      transparent 0%,
+      transparent 35%,
+      rgba(255, 255, 255, 0.45) 50%,
+      transparent 65%,
+      transparent 100%
+    );
+    transform: translateX(-120%);
+    transition: transform 0.9s ease;
+    pointer-events: none;
+  }
+  .btn-shine:hover::after { transform: translateX(120%); }
+
+  /* Floating blob loop --------------------------------------------------- */
+  .float-slow { animation: float-slow 9s ease-in-out infinite; }
+  .float-slower { animation: float-slow 14s ease-in-out infinite; }
+  @keyframes float-slow {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    50%      { transform: translate3d(0, -16px, 0); }
+  }
+
+  /* Subtle film grain (procedural) --------------------------------------- */
+  .bg-noise::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      currentColor 1px,
+      transparent 0
+    );
+    background-size: 3px 3px;
+  }
+
+  /* Layered tropical wash for sections ---------------------------------- */
+  .bg-grain {
+    background-image:
+      radial-gradient(
+        circle at 22% 18%,
+        color-mix(in oklch, var(--gold) 14%, transparent) 0,
+        transparent 42%
+      ),
+      radial-gradient(
+        circle at 78% 78%,
+        color-mix(in oklch, var(--jungle) 12%, transparent) 0,
+        transparent 48%
+      ),
+      radial-gradient(
+        circle at 50% 50%,
+        color-mix(in oklch, var(--cr-blue) 6%, transparent) 0,
+        transparent 60%
+      );
+  }
+
+  /* Gradient ring border (thin premium hairline)  ----------------------- */
+  .ring-cr {
+    box-shadow:
+      inset 0 0 0 1px color-mix(in oklch, var(--gold) 40%, transparent),
+      0 1px 0 0 color-mix(in oklch, var(--foreground) 4%, transparent);
+  }
+
+  /* Marquee stripe used as a flag accent on hero / footer --------------- */
+  .cr-stripe {
+    background: linear-gradient(
+      90deg,
+      var(--cr-blue) 0%,
+      var(--cr-blue) 25%,
+      #ffffff 25%,
+      #ffffff 35%,
+      var(--cr-red) 35%,
+      var(--cr-red) 65%,
+      #ffffff 65%,
+      #ffffff 75%,
+      var(--cr-blue) 75%,
+      var(--cr-blue) 100%
+    );
+  }
+
+  /* Animated underline for nav links ------------------------------------ */
+  .nav-underline {
+    position: relative;
+  }
+  .nav-underline::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0.25rem;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    width: 60%;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--jungle));
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .nav-underline:hover::after { transform: translateX(-50%) scaleX(1); }
+
+  /* Hero cinematic carousel --------------------------------------------- */
+  /* Slow Ken-Burns drift on the active slide */
+  .ken-burns {
+    animation: ken-burns 9s ease-out forwards;
+    will-change: transform;
+  }
+  @keyframes ken-burns {
+    from { transform: scale(1.06) translate3d(0, 0, 0); }
+    to   { transform: scale(1.14) translate3d(-1.2%, -0.8%, 0); }
+  }
+
+  /* Tesla-style thin progress segment fill */
+  .hero-progress-fill {
+    transform-origin: left center;
+    animation: hero-progress var(--hero-slide-duration, 6500ms) linear forwards;
+  }
+  @keyframes hero-progress {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+
+  /* Reduced motion respect ---------------------------------------------- */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .reveal.is-visible,
+    .fade-up, .float-slow, .float-slower,
+    .hover-lift, .btn-shine::after,
+    .ken-burns, .hero-progress-fill {
+      transition: none !important;
+      animation: none !important;
+      transform: none !important;
+    }
+  }
+}
