@@ -1,9 +1,15 @@
-import { ArrowUpRight, Mail, MapPin, MessageCircle } from "lucide-react"
+import {
+  ArrowUpRight,
+  Mail,
+  MapPin,
+  MessageCircle,
+  type LucideProps,
+} from "lucide-react"
 import { FacebookIcon as Facebook, InstagramIcon as Instagram } from "./brand-icons"
 import { Button } from "@/components/ui/button"
 
 type Channel = {
-  icon: typeof MessageCircle
+  icon: React.ComponentType<LucideProps>
   label: string
   handle: string
   cta: string
