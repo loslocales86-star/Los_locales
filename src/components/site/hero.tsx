@@ -16,34 +16,35 @@ type HeroSlide = {
 
 const HERO_SLIDES: HeroSlide[] = [
   {
-    src: "/nosara-beach-gemini.png",
-    alt: "Playa Guiones at sunset in Nosara, Costa Rica",
-    location: "Playa Guiones",
-    caption: "Golden hour on the Pacific",
+    /*src: "/nosara-beach-gemini.png",*/
+    src: "/chi1.png",
+    alt: "Playa Peladas at sunset in Nosara, Costa Rica",
+    location: "Playa Peladas",
+    caption: "Sunset at Nosara, Costa Rica",
   },
   {
-    src: "/guiones.jpg",
+    src: "/chi2.png",
     alt: "Surfers paddling out at Playa Guiones",
-    location: "Playa Guiones",
-    caption: "World-class surf break",
+    location: "Waterfalls río montaña",
+    caption: "Camps in the jungle",
   },
   {
-    src: "/sunset.jpg",
+    src: "/hi3.png",
     alt: "Cliffside sunset over Playa Pelada",
-    location: "Playa Pelada",
-    caption: "Sunset cliff",
+    location: "Waterfalls",
+    caption: "Waterfalls in the jungle",
   },
   {
-    src: "/ostional.jpg",
+    src: "/chi4.png",
     alt: "Wildlife refuge at Playa Ostional",
-    location: "Playa Ostional",
-    caption: "Wildlife refuge",
+    location: "Waterfalls Mala noche",
+    caption: "Mala noche at the waterfalls",
   },
   {
     src: "/paddle.jpg",
     alt: "Kayaking the Nosara mangrove estuary",
-    location: "Río Nosara",
-    caption: "Mangrove estuary",
+    location: "River Nosara",
+    caption: "River Nosara",
   },
 ]
 
