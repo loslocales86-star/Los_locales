@@ -129,9 +129,10 @@ export function TourReservation({ tour, trigger }: TourReservationProps) {
           <img
             src={tour.image}
             alt={tour.title}
-            className="size-full scale-[1.04] object-cover"
+            className="size-full object-cover"
+            style={{ imageRendering: "auto" }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1B3A]/90 via-[#0B1B3A]/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--cr-blue-deep)]/35 via-[color:var(--cr-blue-deep)]/10 to-transparent" />
           <div className="cr-stripe absolute inset-x-0 top-0 h-[2px] opacity-80" />
           <div className="absolute inset-x-5 bottom-4 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-white">
             <Badge className="rounded-full border-0 bg-[color:var(--gold)] px-3 py-1 text-[color:var(--gold-foreground)] shadow-lg shadow-black/20">

@@ -7,7 +7,10 @@ import { defineConfig } from "vite"
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
-    allowedHosts: ['bungee-majestic-estimate.ngrok-free.dev'],
+    allowedHosts: [
+      "bungee-majestic-estimate.ngrok-free.dev",
+      "hesitate-untimed-alongside.ngrok-free.dev",
+    ],
   },
   resolve: {
     alias: {

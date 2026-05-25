@@ -4,51 +4,90 @@ import { Button } from "@/components/ui/button"
 import { TodayInNosara } from "./today-in-nosara"
 
 /* ---------------------------------------------------------------------------
- * Hero slides — cinematic, Tesla / SpaceX-inspired carousel
- * Each slide is a full-bleed photograph with a short location caption.
+ * Hero slides — cinematic HD carousel
+ *
+ * Goals:
+ *  • Photographs are presented at full quality (no whole-image dark wash).
+ *  • A scrim only where the text lives, so colors / tone of the image stay
+ *    untouched everywhere else.
+ *  • Each slide carries an accent color used by chips and the progress bar,
+ *    making elements contrast cleanly against any image.
  * -------------------------------------------------------------------------*/
+type HeroAccent = "gold" | "jungle" | "cr-red" | "cr-blue"
+
 type HeroSlide = {
   src: string
   alt: string
   location: string
   caption: string
+  accent: HeroAccent
 }
 
 const HERO_SLIDES: HeroSlide[] = [
   {
-    /*src: "/nosara-beach-gemini.png",*/
+    src: "/cuadras.jpeg",
+    alt: "Local Nosara streets — pure Pura Vida",
+    location: "Pueblo de Nosara",
+    caption: "Authentic Pura Vida culture",
+    accent: "cr-red",
+  },
+  {
+    src: "/peladas_playa.png",
+    alt: "Playa Pelada — golden hour over the Pacific in Nosara, Costa Rica",
+    location: "Playa Pelada",
+    caption: "Hidden coves & golden hour",
+    accent: "gold",
+  },
+  {
+    src: "/gemini_kayakk.png",
+    alt: "Kayaking the Río Nosara mangroves at sunrise",
+    location: "Río Nosara",
+    caption: "Mangroves & wildlife paddle",
+    accent: "jungle",
+  },
+  {
     src: "/chi1.png",
-    alt: "Playa Peladas at sunset in Nosara, Costa Rica",
-    location: "Playa Peladas",
-    caption: "Sunset at Nosara, Costa Rica",
+    alt: "Cliffside Pacific sunset above Nosara",
+    location: "Pacific cliffs",
+    caption: "Cliff sunsets above Nosara",
+    accent: "cr-blue",
   },
-  {
-    src: "/chi2.png",
-    alt: "Surfers paddling out at Playa Guiones",
-    location: "Waterfalls río montaña",
-    caption: "Camps in the jungle",
-  },
-  {
-    src: "/hi3.png",
-    alt: "Cliffside sunset over Playa Pelada",
-    location: "Waterfalls",
-    caption: "Waterfalls in the jungle",
-  },
-  {
-    src: "/chi4.png",
-    alt: "Wildlife refuge at Playa Ostional",
-    location: "Waterfalls Mala noche",
-    caption: "Mala noche at the waterfalls",
-  },
-  {
-    src: "/paddle.jpg",
-    alt: "Kayaking the Nosara mangrove estuary",
-    location: "River Nosara",
-    caption: "River Nosara",
-  },
+  // {
+  //   src: "/ostional.jpg",
+  //   alt: "beach",
+  //   location: "ostional beach",
+  //   caption: "Ostional beach",
+  //   accent: "gold",
+  // },
 ]
 
 const SLIDE_DURATION_MS = 6500
+
+/* ---------------------------------------------------------------------------
+ * Accent helpers — every slide drives chips, the progress bar and the rule
+ * underneath the headline. Only CR flag tones are used (red / blue), with
+ * "deep" variants giving subtle differentiation between slides.
+ * -------------------------------------------------------------------------*/
+const ACCENT_BG: Record<HeroAccent, string> = {
+  gold: "bg-[color:var(--cr-red)]",
+  jungle: "bg-[color:var(--cr-blue)]",
+  "cr-red": "bg-[color:var(--cr-red-deep)]",
+  "cr-blue": "bg-[color:var(--cr-blue-deep)]",
+}
+
+const ACCENT_TEXT: Record<HeroAccent, string> = {
+  gold: "text-[color:var(--cr-red)]",
+  jungle: "text-[color:var(--cr-blue)]",
+  "cr-red": "text-[color:var(--cr-red-deep)]",
+  "cr-blue": "text-[color:var(--cr-blue-deep)]",
+}
+
+const ACCENT_GLOW: Record<HeroAccent, string> = {
+  gold: "color-mix(in oklch, var(--cr-red) 60%, transparent)",
+  jungle: "color-mix(in oklch, var(--cr-blue) 60%, transparent)",
+  "cr-red": "color-mix(in oklch, var(--cr-red-deep) 60%, transparent)",
+  "cr-blue": "color-mix(in oklch, var(--cr-blue-deep) 60%, transparent)",
+}
 
 export function Hero() {
   const [activeIdx, setActiveIdx] = useState(0)
@@ -73,6 +112,15 @@ export function Hero() {
     }
   }, [activeIdx, isPaused])
 
+  /* Pre-load every hero photo immediately so HD frames are ready before
+   * their slide takes the stage — avoids low-quality crossfades. */
+  useEffect(() => {
+    HERO_SLIDES.forEach((s) => {
+      const img = new Image()
+      img.src = s.src
+    })
+  }, [])
+
   const active = HERO_SLIDES[activeIdx]
 
   return (
@@ -83,9 +131,10 @@ export function Hero() {
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
+      style={{ ["--hero-accent-glow" as string]: ACCENT_GLOW[active.accent] }}
     >
       {/* ----------------------------------------------------------------- *
-       * Cinematic carousel — crossfading full-bleed photography
+       * Cinematic carousel — full-quality photographs, crossfading.
        * ----------------------------------------------------------------- */}
       <div className="absolute inset-0 -z-10">
         {HERO_SLIDES.map((slide, idx) => {
@@ -103,33 +152,33 @@ export function Hero() {
               <img
                 src={slide.src}
                 alt={slide.alt}
-                className={`size-full object-cover ${
-                  isActive ? "ken-burns" : "scale-[1.06]"
-                }`}
+                className="size-full object-cover"
                 loading={idx === 0 ? "eager" : "lazy"}
                 decoding={idx === 0 ? "sync" : "async"}
                 draggable={false}
+                style={{ imageRendering: "auto" }}
               />
             </div>
           )
         })}
 
-        {/* Cinematic gradient stack — preserves text legibility on every slide */}
-        <div className="absolute inset-0 z-[2] bg-gradient-to-b from-[#0B1B3A]/35 via-[#0B1B3A]/50 to-[#0B1B3A]/90" />
-        <div className="absolute inset-0 z-[2] bg-gradient-to-r from-[#0B1B3A]/65 via-transparent to-transparent" />
-        <div className="pointer-events-none absolute inset-x-0 top-1/3 z-[2] h-1/2 bg-[radial-gradient(60%_60%_at_50%_50%,color-mix(in_oklch,var(--gold)_18%,transparent)_0%,transparent_70%)]" />
+        {/* Discreet scrims — keep the photograph mostly untouched. The left
+         * column gets a CR-navy wash so white type stays legible against any
+         * frame; the bottom edge gets a softer rail for the progress bar. */}
+        <div className="absolute inset-0 z-[2] bg-gradient-to-r from-[color:var(--cr-blue-deep)]/30 via-[color:var(--cr-blue-deep)]/5 to-transparent sm:from-[color:var(--cr-blue-deep)]/24 sm:via-[color:var(--cr-blue-deep)]/2" />
+        <div className="absolute inset-x-0 bottom-0 z-[2] h-[22%] bg-gradient-to-t from-[color:var(--cr-blue-deep)]/24 via-[color:var(--cr-blue-deep)]/3 to-transparent" />
       </div>
 
       {/* Costa Rica flag accent line --------------------------------------*/}
       <div className="cr-stripe pointer-events-none absolute inset-x-0 top-0 z-10 h-[3px] opacity-90" />
 
       {/* ----------------------------------------------------------------- *
-       * Slide caption — top-right minimalist chip (Tesla-style)
+       * Slide caption — top-right minimalist chip
        * ----------------------------------------------------------------- */}
       <div className="pointer-events-none absolute right-[5%] top-24 z-20 hidden sm:block">
         <div
           key={active.src}
-          className="fade-up flex items-center gap-3 rounded-full border border-white/15 bg-black/30 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/95 backdrop-blur-md"
+          className="fade-up flex items-center gap-3 rounded-full border border-white/20 bg-black/35 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/95 shadow-[0_8px_24px_-12px_rgba(0,0,0,0.6)] backdrop-blur-md"
         >
           <span className="text-white/55 tabular-nums">
             {String(activeIdx + 1).padStart(2, "0")}
@@ -137,6 +186,7 @@ export function Hero() {
             {String(HERO_SLIDES.length).padStart(2, "0")}
           </span>
           <span className="h-3 w-px bg-white/25" />
+          <span className={`size-1.5 rounded-full ${ACCENT_BG[active.accent]} shadow-[0_0_10px_var(--hero-accent-glow)]`} />
           <span className="text-white">{active.location}</span>
           <span className="hidden text-white/55 normal-case tracking-normal md:inline">
             · {active.caption}
@@ -145,52 +195,70 @@ export function Hero() {
       </div>
 
       <div className="mx-auto w-[min(1240px,94%)]">
-        <div className="max-w-3xl text-background fade-up">
-          {/* Eyebrow location chip */}
-          <div className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/95 backdrop-blur-md">
+        <div className="max-w-3xl fade-up">
+          {/* Eyebrow location chip — uses the slide accent (always CR red/blue) */}
+          <div className="inline-flex items-center gap-2.5 rounded-full border border-white/30 bg-[color:var(--cr-blue-deep)]/45 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white shadow-[0_8px_24px_-10px_rgba(3,11,34,0.65)] backdrop-blur-md">
             <span className="relative flex size-2">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-[color:var(--gold)]/70" />
-              <span className="relative inline-flex size-2 rounded-full bg-[color:var(--gold)]" />
+              <span
+                className={`absolute inline-flex size-full animate-ping rounded-full ${ACCENT_BG[active.accent]} opacity-70`}
+              />
+              <span
+                className={`relative inline-flex size-2 rounded-full ${ACCENT_BG[active.accent]}`}
+              />
             </span>
             Nosara · Guanacaste · Costa Rica
           </div>
 
-          {/* Hero headline */}
-          <h1 className="mt-7 text-balance font-display text-[3.25rem] font-extrabold leading-[0.92] tracking-tight text-white text-shadow-soft sm:text-7xl md:text-8xl lg:text-[7.5rem]">
-            Los{" "}
-            <span className="bg-gradient-to-r from-[color:var(--gold)] via-[#FBE3A2] to-white bg-clip-text text-transparent">
-              Locales
+          {/* Hero headline — white title with subtle BCR blue/red glow.
+           * Keeps premium contrast over photos while adding brand color depth. */}
+          <h1 className="mt-6 font-display font-black uppercase leading-[0.92] tracking-[-0.02em] [text-shadow:0_2px_10px_rgba(0,0,0,0.45),-8px_0_22px_color-mix(in_oklch,var(--cr-blue)_42%,transparent),8px_0_22px_color-mix(in_oklch,var(--cr-red)_42%,transparent)]">
+            <span className="block text-[1.3rem] tracking-[0.09em] sm:text-[1.45rem] md:text-[1.6rem] lg:text-[1.75rem]">
+              <span className="text-[color:var(--cr-red)]">LO</span>
+              <span className="text-white">S</span>
+            </span>
+            <span className="-mt-1 block text-[2.6rem] sm:text-[3.6rem] md:text-[4.6rem] lg:text-[5.4rem]">
+              <span className="text-[color:var(--cr-red)]">LO</span>
+              <span className="text-white">CA</span>
+              <span className="text-[color:var(--cr-blue)]">LES</span>
             </span>
           </h1>
 
-          {/* Lede + supporting copy */}
-          <p className="mt-6 max-w-2xl text-balance text-xl font-medium text-white/95 sm:text-2xl md:text-[1.6rem] md:leading-snug">
+          {/* CR-flag accent rule — three short stripes anchor the headline. */}
+          <div className="mt-5 flex items-center gap-1.5">
+            <span className="h-[3px] w-10 rounded-full bg-[color:var(--cr-blue)] shadow-[0_0_14px_color-mix(in_oklch,var(--cr-blue)_55%,transparent)] sm:w-14" />
+            <span className="h-[3px] w-6 rounded-full bg-white/95 sm:w-8" />
+            <span className="h-[3px] w-10 rounded-full bg-[color:var(--cr-red)] shadow-[0_0_14px_color-mix(in_oklch,var(--cr-red)_55%,transparent)] sm:w-14" />
+          </div>
+
+          {/* Lede + supporting copy — pure white with a soft halo. */}
+          <p className="mt-6 max-w-2xl text-balance text-xl font-semibold text-white text-shadow-body sm:text-2xl md:text-[1.55rem] md:leading-snug">
             Discover and enjoy the beauty of Nosara.
           </p>
 
-          <p className="mt-4 max-w-xl text-pretty text-base leading-relaxed text-white/80 sm:text-lg">
+          <p className="mt-4 max-w-xl text-pretty text-base font-medium leading-relaxed text-white text-shadow-body sm:text-lg">
             With the best and most experienced tour guides of Nosara, we give
             you the most authentic experience of the town — the way only the
             locals can.
           </p>
 
-          {/* Primary actions */}
+          {/* Primary actions — CR red CTA and a glass white outline. Hovers
+           * are minimal: a quiet color shift and shadow swell, no big jumps. */}
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <Button
               asChild
               size="lg"
-              className="btn-shine h-[52px] rounded-full bg-[color:var(--gold)] px-7 text-[15px] font-semibold text-[color:var(--gold-foreground)] shadow-[0_18px_40px_-12px_color-mix(in_oklch,var(--gold)_70%,transparent)] transition-transform duration-300 hover:scale-[1.03] hover:bg-[color:var(--gold)]/95"
+              className="btn-shine group h-[52px] rounded-full bg-[color:var(--cr-red)] px-7 text-[15px] font-semibold tracking-wide text-[color:var(--cr-red-foreground)] shadow-[0_18px_40px_-14px_color-mix(in_oklch,var(--cr-red)_72%,transparent)] transition-all duration-500 hover:bg-[color:var(--cr-red-deep)] hover:shadow-[0_22px_50px_-14px_color-mix(in_oklch,var(--cr-red)_78%,transparent)]"
             >
               <a href="#reserve">
                 Book Your Adventure
-                <ArrowRight className="ml-1.5 size-4 transition-transform group-hover:translate-x-0.5" />
+                <ArrowRight className="ml-1.5 size-4 transition-transform duration-500 group-hover:translate-x-0.5" />
               </a>
             </Button>
             <Button
               asChild
               size="lg"
               variant="outline"
-              className="h-[52px] rounded-full border-white/30 bg-white/10 px-6 text-[15px] font-semibold text-white backdrop-blur-md transition hover:scale-[1.02] hover:border-white/50 hover:bg-white/20 hover:text-white"
+              className="h-[52px] rounded-full border border-white/55 bg-white/10 px-6 text-[15px] font-semibold tracking-wide text-white shadow-[0_10px_28px_-14px_rgba(3,11,34,0.55)] backdrop-blur-md transition-all duration-500 hover:border-white hover:bg-white/18 hover:text-white"
             >
               <a href="#contact">
                 <MessageCircle className="mr-1.5 size-4" />
@@ -199,22 +267,21 @@ export function Hero() {
             </Button>
           </div>
 
-          {/* Trust strip */}
-          <div className="mt-12 flex flex-wrap items-center gap-x-7 gap-y-3 text-sm text-white/85">
-            <div className="flex items-center gap-1.5">
+          {/* Trust strip — white stars on a navy chip read on any photo. */}
+          <div className="mt-11 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white">
+            <div className="flex items-center gap-1.5 rounded-full border border-white/25 bg-[color:var(--cr-blue-deep)]/55 px-3 py-1.5 backdrop-blur-md">
               {[0, 1, 2, 3, 4].map((i) => (
                 <Star
                   key={i}
-                  className="size-4 fill-[color:var(--gold)] text-[color:var(--gold)] drop-shadow-[0_0_6px_color-mix(in_oklch,var(--gold)_50%,transparent)]"
+                  className="size-4 fill-white text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.45)]"
                 />
               ))}
-              <span className="ml-1.5 font-semibold tracking-tight text-white">
+              <span className="ml-1.5 font-bold tracking-tight text-white">
                 4.9
               </span>
-              <span className="text-white/60">· 300+ travelers</span>
+              <span className="text-white/85">· 300+ travelers</span>
             </div>
-            <div className="hidden h-4 w-px bg-white/25 sm:block" />
-            <span className="text-[13px] font-medium uppercase tracking-[0.2em] text-white/70">
+            <span className="text-[13px] font-semibold uppercase tracking-[0.2em] text-white text-shadow-body">
               Top Rated Local Experience
             </span>
           </div>
@@ -232,29 +299,29 @@ export function Hero() {
       </div>
 
       {/* ----------------------------------------------------------------- *
-       * Carousel control rail — full-width thin progress segments
-       * (Tesla / SpaceX inspired minimalist navigation)
+       * Carousel control rail — Tesla / SpaceX inspired thin segments
        * ----------------------------------------------------------------- */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20">
         <div className="mx-auto flex w-[min(1240px,94%)] items-end justify-between gap-6 pb-6">
           {/* Mobile caption — visible only on small screens */}
-          <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-white/75 sm:hidden">
+          <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-white/80 sm:hidden">
             <span className="tabular-nums text-white">
               {String(activeIdx + 1).padStart(2, "0")}
             </span>
-            <span className="text-white/40">/</span>
-            <span className="tabular-nums text-white/60">
+            <span className="text-white/50">/</span>
+            <span className="tabular-nums text-white/70">
               {String(HERO_SLIDES.length).padStart(2, "0")}
             </span>
-            <span className="ml-2 text-white/55 tracking-[0.22em]">
+            <span className={`ml-1 size-1.5 rounded-full ${ACCENT_BG[active.accent]}`} />
+            <span className="ml-1 text-white/85 tracking-[0.22em]">
               {active.location}
             </span>
           </div>
 
           {/* Scroll cue — tucked away on the left for sm+ */}
-          <div className="hidden flex-col items-start gap-2 text-[10px] font-semibold uppercase tracking-[0.32em] text-white/55 sm:flex">
+          <div className="hidden flex-col items-start gap-2 text-[10px] font-semibold uppercase tracking-[0.32em] text-white/65 sm:flex">
             <span>Scroll</span>
-            <span className="h-8 w-px bg-gradient-to-b from-white/60 to-transparent" />
+            <span className="h-8 w-px bg-gradient-to-b from-white/70 to-transparent" />
           </div>
 
           {/* Progress segments */}
@@ -277,7 +344,7 @@ export function Hero() {
                   className="group/slide relative h-8 cursor-pointer focus:outline-none"
                   style={{ flexBasis: "clamp(40px, 9vw, 96px)" }}
                 >
-                  <span className="absolute inset-x-0 top-1/2 block h-px -translate-y-1/2 bg-white/25 transition group-hover/slide:bg-white/45 group-focus-visible/slide:bg-white/60" />
+                  <span className="absolute inset-x-0 top-1/2 block h-px -translate-y-1/2 bg-white/30 transition group-hover/slide:bg-white/55 group-focus-visible/slide:bg-white/70" />
                   <span
                     className={`absolute inset-x-0 top-1/2 block h-px -translate-y-1/2 origin-left transition-transform duration-700 ease-out ${
                       isPast ? "scale-x-100 bg-white" : "scale-x-0 bg-white"
@@ -286,7 +353,7 @@ export function Hero() {
                   {isActive && !isPaused && (
                     <span
                       key={`progress-${activeIdx}`}
-                      className="hero-progress-fill absolute inset-x-0 top-1/2 block h-px -translate-y-1/2 bg-[color:var(--gold)]"
+                      className={`hero-progress-fill absolute inset-x-0 top-1/2 block h-[2px] -translate-y-1/2 ${ACCENT_BG[slide.accent]} ${ACCENT_TEXT[slide.accent]} shadow-[0_0_12px_currentColor]`}
                       style={
                         {
                           ["--hero-slide-duration"]: `${SLIDE_DURATION_MS}ms`,
@@ -295,7 +362,7 @@ export function Hero() {
                     />
                   )}
                   {isActive && isPaused && (
-                    <span className="absolute inset-x-0 top-1/2 block h-px -translate-y-1/2 bg-[color:var(--gold)]" />
+                    <span className={`absolute inset-x-0 top-1/2 block h-[2px] -translate-y-1/2 ${ACCENT_BG[slide.accent]}`} />
                   )}
                 </button>
               )

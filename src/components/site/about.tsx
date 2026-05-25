@@ -52,11 +52,12 @@ export function About() {
               <img
                 src="/peladas.jpg"
                 alt="Los Locales tour guides in Nosara"
-                className="size-full object-cover transition-transform duration-[1.4s] ease-out hover:scale-[1.04]"
+                className="size-full object-cover"
                 loading="lazy"
+                style={{ imageRendering: "auto" }}
               />
-              {/* Soft inner gradient to reinforce depth */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0B1B3A]/35 via-transparent to-transparent" />
+              {/* Minimal inner gradient only for text/chip readability around image edges */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color:var(--cr-blue-deep)]/14 via-transparent to-transparent" />
             </div>
 
             {/* Floating stat card */}

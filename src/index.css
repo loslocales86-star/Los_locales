@@ -62,71 +62,85 @@
   --color-jungle-foreground: var(--jungle-foreground);
   --color-cr-red: var(--cr-red);
   --color-cr-red-foreground: var(--cr-red-foreground);
+  --color-cr-red-deep: var(--cr-red-deep);
+  --color-cr-red-soft: var(--cr-red-soft);
   --color-cr-blue: var(--cr-blue);
   --color-cr-blue-foreground: var(--cr-blue-foreground);
+  --color-cr-blue-deep: var(--cr-blue-deep);
+  --color-cr-blue-soft: var(--cr-blue-soft);
 }
 
 /* ---------------------------------------------------------------------------
- * Costa Rica — modern & premium reinterpretation of the flag palette
- * Blue · Red · White · Green, with sand/gold supporting accents.
+ * Costa Rica flag palette — the entire site is built from BLUE · WHITE · RED.
+ *
+ * Two pure CR tones (cr-blue / cr-red) carry every accent. To keep depth and
+ * professional contrast, we add deeper "deep" variants of each. The legacy
+ * "gold" and "jungle" tokens are remapped onto this palette so existing
+ * components automatically inherit the tricolor without per-component edits.
  * -------------------------------------------------------------------------*/
 :root {
   --radius: 1rem;
 
-  /* Costa Rica accents (refined) ----------------------------------------- */
-  --cr-blue: oklch(0.34 0.13 252);            /* deep ocean blue (premium) */
-  --cr-blue-foreground: oklch(0.98 0.01 252);
+  /* Costa Rica accents (refined for premium, never pale) ----------------- */
+  --cr-blue: oklch(0.36 0.15 252);            /* deep ocean blue — primary cool */
+  --cr-blue-foreground: oklch(0.99 0.01 252);
   --cr-blue-soft: oklch(0.93 0.04 252);       /* misty horizon blue */
+  --cr-blue-deep: oklch(0.24 0.13 258);       /* near-navy for emphasis */
 
-  --cr-red: oklch(0.56 0.19 22);              /* warm sangria red */
+  --cr-red: oklch(0.58 0.21 22);              /* warm sangria red — primary warm */
   --cr-red-foreground: oklch(0.99 0.01 22);
+  --cr-red-soft: oklch(0.94 0.04 22);
+  --cr-red-deep: oklch(0.46 0.2 22);          /* deeper carmine for emphasis */
 
-  --gold: oklch(0.78 0.13 80);                /* warm tropical gold */
-  --gold-foreground: oklch(0.22 0.04 80);
+  /* Legacy slots → mapped onto the CR palette so the whole codebase reads
+   * as one cohesive tricolor. "Gold" plays the warm role (red), "jungle"
+   * plays the cool role (blue). Existing usages update automatically. */
+  --gold: oklch(0.58 0.21 22);
+  --gold-foreground: oklch(0.99 0.01 22);
 
-  --sand: oklch(0.95 0.03 85);                /* soft sand */
-  --sand-foreground: oklch(0.25 0.03 85);
+  --jungle: oklch(0.36 0.15 252);
+  --jungle-foreground: oklch(0.99 0.01 252);
 
-  --jungle: oklch(0.48 0.13 155);             /* deep tropical green */
-  --jungle-foreground: oklch(0.98 0.01 155);
+  --sand: oklch(0.96 0.018 252);              /* tinted toward CR blue */
+  --sand-foreground: oklch(0.24 0.06 252);
 
   /* Surface ---------------------------------------------------------------*/
-  --background: oklch(0.975 0.011 85);        /* warm ivory — never pure white */
-  --foreground: oklch(0.18 0.025 252);
-  --card: oklch(0.995 0.005 85);
-  --card-foreground: oklch(0.18 0.025 252);
-  --popover: oklch(0.995 0.005 85);
-  --popover-foreground: oklch(0.18 0.025 252);
+  --background: oklch(0.98 0.005 252);        /* ivory with a blue tilt */
+  --foreground: oklch(0.18 0.04 252);
+  --card: oklch(0.997 0.003 252);
+  --card-foreground: oklch(0.18 0.04 252);
+  --popover: oklch(0.997 0.003 252);
+  --popover-foreground: oklch(0.18 0.04 252);
 
   /* Brand-driven semantic tokens -----------------------------------------*/
-  --primary: oklch(0.34 0.13 252);
-  --primary-foreground: oklch(0.98 0.01 252);
-  --secondary: oklch(0.93 0.025 85);
-  --secondary-foreground: oklch(0.22 0.04 85);
-  --muted: oklch(0.95 0.018 85);
-  --muted-foreground: oklch(0.43 0.025 252);
-  --accent: oklch(0.78 0.13 80);
-  --accent-foreground: oklch(0.22 0.04 80);
-  --destructive: oklch(0.56 0.19 22);
+  --primary: oklch(0.36 0.15 252);
+  --primary-foreground: oklch(0.99 0.01 252);
+  --secondary: oklch(0.94 0.025 252);
+  --secondary-foreground: oklch(0.22 0.06 252);
+  --muted: oklch(0.95 0.015 252);
+  --muted-foreground: oklch(0.43 0.04 252);
+  --accent: oklch(0.58 0.21 22);
+  --accent-foreground: oklch(0.99 0.01 22);
+  --destructive: oklch(0.58 0.21 22);
   --destructive-foreground: oklch(0.99 0.01 22);
-  --border: oklch(0.88 0.02 85);
-  --input: oklch(0.9 0.02 85);
-  --ring: oklch(0.78 0.13 80);
+  --border: oklch(0.88 0.02 252);
+  --input: oklch(0.9 0.02 252);
+  --ring: oklch(0.58 0.21 22);
 
-  --chart-1: oklch(0.34 0.13 252);
-  --chart-2: oklch(0.56 0.19 22);
-  --chart-3: oklch(0.78 0.13 80);
-  --chart-4: oklch(0.48 0.13 155);
-  --chart-5: oklch(0.95 0.03 85);
+  --chart-1: oklch(0.36 0.15 252);
+  --chart-2: oklch(0.58 0.21 22);
+  --chart-3: oklch(0.46 0.2 22);
+  --chart-4: oklch(0.24 0.13 258);
+  --chart-5: oklch(0.94 0.025 252);
 
-  --sidebar: oklch(0.985 0.01 252);
-  --sidebar-foreground: oklch(0.2 0.03 252);
-  --sidebar-primary: oklch(0.34 0.13 252);
-  --sidebar-primary-foreground: oklch(0.98 0.01 252);
-  --sidebar-accent: oklch(0.93 0.025 85);
-  --sidebar-accent-foreground: oklch(0.22 0.04 85);
-  --sidebar-border: oklch(0.88 0.02 85);
-  --sidebar-ring: oklch(0.78 0.13 80);
+  --sidebar: oklch(0.985 0.005 252);
+  --sidebar-foreground: oklch(0.2 0.04 252);
+  --sidebar-primary: oklch(0.36 0.15 252);
+  --sidebar-primary-foreground: oklch(0.99 0.01 252);
+  --sidebar-accent: oklch(0.94 0.025 252);
+  --sidebar-accent-foreground: oklch(0.22 0.06 252);
+  --sidebar-border: oklch(0.88 0.02 252);
+  --sidebar-ring: oklch(0.58 0.21 22);
 }
 
 .dark {
@@ -257,13 +271,28 @@
     color: color-mix(in oklch, var(--foreground) 75%, transparent);
   }
 
-  /* Subtle gradient text using brand colors */
+  /* CR-tricolor gradient text — only blue · white · red, in that order. */
   .text-cr-gradient {
     background: linear-gradient(
-      135deg,
-      var(--cr-blue) 0%,
-      var(--jungle) 60%,
-      var(--gold) 100%
+      120deg,
+      var(--cr-blue-deep) 0%,
+      var(--cr-blue) 35%,
+      var(--cr-red) 75%,
+      var(--cr-red-deep) 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  /* On-photo (white) tricolor — keeps text legible over imagery while
+   * still tracing the CR flag colors as a subtle warm-to-cool shimmer. */
+  .text-cr-on-photo {
+    background: linear-gradient(
+      100deg,
+      #ffffff 0%,
+      #ffffff 55%,
+      color-mix(in oklch, var(--cr-red) 75%, white) 100%
     );
     background-clip: text;
     -webkit-background-clip: text;
@@ -295,19 +324,20 @@
     to   { opacity: 1; transform: translate3d(0, 0, 0); }
   }
 
-  /* Card hover-lift ------------------------------------------------------ */
+  /* Card hover-lift — minimal, never abrupt. Subtle vertical drift, soft
+   * tricolor shadow so the lift always reads as a CR-themed accent. */
   .hover-lift {
     transition:
-      transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
-      box-shadow 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
-      border-color 0.4s ease;
+      transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+      border-color 0.45s ease;
     will-change: transform;
   }
   .hover-lift:hover {
-    transform: translate3d(0, -6px, 0);
+    transform: translate3d(0, -3px, 0);
     box-shadow:
-      0 24px 48px -24px color-mix(in oklch, var(--cr-blue) 30%, transparent),
-      0 8px 16px -8px color-mix(in oklch, var(--foreground) 12%, transparent);
+      0 18px 36px -22px color-mix(in oklch, var(--cr-blue) 35%, transparent),
+      0 4px 14px -8px color-mix(in oklch, var(--cr-red) 18%, transparent);
   }
 
   /* CTA shimmer (sweeping highlight on hover) ---------------------------- */
@@ -423,14 +453,15 @@
   .nav-underline:hover::after { transform: translateX(-50%) scaleX(1); }
 
   /* Hero cinematic carousel --------------------------------------------- */
-  /* Slow Ken-Burns drift on the active slide */
+  /* Almost-still drift on the active slide — keep it minimal so the photo
+   * itself is the hero, not the motion. */
   .ken-burns {
-    animation: ken-burns 9s ease-out forwards;
+    animation: ken-burns 16s ease-out forwards;
     will-change: transform;
   }
   @keyframes ken-burns {
-    from { transform: scale(1.06) translate3d(0, 0, 0); }
-    to   { transform: scale(1.14) translate3d(-1.2%, -0.8%, 0); }
+    from { transform: scale(1.005) translate3d(0, 0, 0); }
+    to   { transform: scale(1.025) translate3d(-0.25%, -0.15%, 0); }
   }
 
   /* Tesla-style thin progress segment fill */
